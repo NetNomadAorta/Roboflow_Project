@@ -108,8 +108,16 @@ for image_name in os.listdir(test_folder_path):
     
     count_rbc_list_2.append(count_rbc_2)
 # -----------------------------------------------------------------------------
+accuracy_list = []
 
+for inference_count_index, inference_count in enumerate(count_rbc_list_2):
+    if inference_count == count_rbc_list_1[inference_count_index]:
+        accuracy_list.append(True)
+    else:
+        accuracy_list.append(False)
 
+accuracy = accuracy_list.count(True)/len(accuracy_list)
+print(accuracy)
 
 
 # =============================================================================

@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.00 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.30 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 
@@ -70,59 +70,74 @@ for id_index, info in enumerate(annotations):
 count_rbc_list_1.append(count_rbc_1)
 # -----------------------------------------------------------------------------
 
+highest_confidence_score_accuracy = 0
+previous_highest_confidence_score_accuracy = 0
 
-# Inference Section
-# -----------------------------------------------------------------------------
-test_folder_path = os.path.join(DATASET_PATH, "test")
+# Confidence Change Section
+for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
 
-count_rbc_list_2 = []
-
-for image_name in os.listdir(test_folder_path):
-    image_path = os.path.join(test_folder_path, image_name)
+    # Inference Section
+    # -----------------------------------------------------------------------------
+    test_folder_path = os.path.join(DATASET_PATH, "test")
     
-    if "annotation" in image_path:
-        continue
+    count_rbc_list_2 = []
     
-    count_rbc_2 = 0
-    
-    # Load Image with PIL
-    img = cv2.imread(image_path)
-    image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    pilImage = Image.fromarray(image)
-    
-    # Convert to JPEG Buffer
-    buffered = io.BytesIO()
-    pilImage.save(buffered, quality=100, format="JPEG")
-    
-    # Build multipart form and post request
-    m = MultipartEncoder(fields={'file': ("imageToUpload", buffered.getvalue(), "image/jpeg")})
-    
-    response = requests.post("https://detect.roboflow.com/blood-cell-detection-1ekwu/1?api_key=umichXAeCyw6nlBsDZIt", data=m, headers={'Content-Type': m.content_type})
-    
-    predictions = response.json()['predictions']
-    
-    for prediction in predictions:
-        label = prediction['class']
-        confidence_score = prediction['confidence']
+    for image_name in os.listdir(test_folder_path):
+        image_path = os.path.join(test_folder_path, image_name)
         
-        if "RBC" in label and confidence_score > MIN_CONFIDENCE_SCORE:
-            count_rbc_2 += 1
+        if "annotation" in image_path:
+            continue
+        
+        count_rbc_2 = 0
+        
+        # Load Image with PIL
+        img = cv2.imread(image_path)
+        image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        pilImage = Image.fromarray(image)
+        
+        # Convert to JPEG Buffer
+        buffered = io.BytesIO()
+        pilImage.save(buffered, quality=100, format="JPEG")
+        
+        # Build multipart form and post request
+        m = MultipartEncoder(fields={'file': ("imageToUpload", buffered.getvalue(), "image/jpeg")})
+        
+        response = requests.post("https://detect.roboflow.com/blood-cell-detection-1ekwu/1?api_key=umichXAeCyw6nlBsDZIt", data=m, headers={'Content-Type': m.content_type})
+        
+        predictions = response.json()['predictions']
+        
+        for prediction in predictions:
+            label = prediction['class']
+            confidence_score = prediction['confidence']
+            
+            if "RBC" in label and confidence_score > (MIN_CONFIDENCE_SCORE+(confidence_score_addition/100)):
+                count_rbc_2 += 1
+        
+        count_rbc_list_2.append(count_rbc_2)
+    # -----------------------------------------------------------------------------
     
-    count_rbc_list_2.append(count_rbc_2)
-# -----------------------------------------------------------------------------
-
-
-accuracy_list = []
-
-for inference_count_index, inference_count in enumerate(count_rbc_list_2):
-    if inference_count == count_rbc_list_1[inference_count_index]:
-        accuracy_list.append(True)
-    else:
-        accuracy_list.append(False)
-
-accuracy = accuracy_list.count(True)/len(accuracy_list)
-print(round(accuracy*100,2), "%")
-
+    
+    # Accuracy Test
+    # -----------------------------------------------------------------------------
+    accuracy_list = []
+    
+    for inference_count_index, inference_count in enumerate(count_rbc_list_2):
+        if inference_count == count_rbc_list_1[inference_count_index]:
+            accuracy_list.append(True)
+        else:
+            accuracy_list.append(False)
+    
+    accuracy = accuracy_list.count(True)/len(accuracy_list)
+    print(round(accuracy*100,2), "%")
+    # -----------------------------------------------------------------------------
+    
+    highest_confidence_score_accuracy = accuracy
+    
+    if highest_confidence_score_accuracy > previous_highest_confidence_score_accuracy:
+        previous_highest_confidence_score_accuracy = highest_confidence_score_accuracy
+    
+    
+print("Confidence level with highest accuracy between test dataset and inference:", highest_confidence_score_accuracy)
 
 # =============================================================================
 

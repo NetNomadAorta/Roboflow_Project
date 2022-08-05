@@ -8,7 +8,7 @@ import time
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.40 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.80 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 

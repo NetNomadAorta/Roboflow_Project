@@ -59,6 +59,10 @@ for id_index, info in enumerate(annotations):
     
     previous_image_id = image_id
 
+count_rbc_list.append(count_rbc)
+
+print(len(count_rbc_list))
+print(count_rbc_list)
 # =============================================================================
 
 

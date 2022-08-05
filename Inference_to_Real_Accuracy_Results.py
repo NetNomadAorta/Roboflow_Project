@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.40 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.80 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 
@@ -66,6 +66,8 @@ for id_index, info in enumerate(annotations):
         count_rbc_1 += 1
     
     previous_image_id = image_id
+
+count_rbc_list_1.append(count_rbc_1)
 # -----------------------------------------------------------------------------
 
 
@@ -117,7 +119,7 @@ for inference_count_index, inference_count in enumerate(count_rbc_list_2):
         accuracy_list.append(False)
 
 accuracy = accuracy_list.count(True)/len(accuracy_list)
-print(accuracy)
+print(round(accuracy*100,2), "%")
 
 
 # =============================================================================

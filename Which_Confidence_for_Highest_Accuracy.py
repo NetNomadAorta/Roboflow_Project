@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.80 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.00 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 
@@ -112,8 +112,6 @@ for image_name in os.listdir(test_folder_path):
 # -----------------------------------------------------------------------------
 
 
-# Accuracy Test
-# -----------------------------------------------------------------------------
 accuracy_list = []
 
 for inference_count_index, inference_count in enumerate(count_rbc_list_2):
@@ -124,7 +122,6 @@ for inference_count_index, inference_count in enumerate(count_rbc_list_2):
 
 accuracy = accuracy_list.count(True)/len(accuracy_list)
 print(round(accuracy*100,2), "%")
-# -----------------------------------------------------------------------------
 
 
 # =============================================================================

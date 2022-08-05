@@ -1,9 +1,6 @@
 import os
 import time
 import torch
-# remove warnings (optional)
-import warnings
-warnings.filterwarnings("ignore")
 from pycocotools.coco import COCO
 
 

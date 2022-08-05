@@ -1,12 +1,6 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import os
 import time
 import torch
-from torchvision import datasets, models
-from torch.utils.data import DataLoader
-import copy
-import math
 # remove warnings (optional)
 import warnings
 warnings.filterwarnings("ignore")
@@ -27,6 +21,9 @@ def time_convert(sec):
 
 
 
+# Main()
+# =============================================================================
+
 # Starting stopwatch to see how long process takes
 start_time = time.time()
 
@@ -45,8 +42,6 @@ annotations = data['annotations']
 n_classes = len(categories.keys())
 categories
 
-# Only care about id/key/label 2 (RBC)
-
 previous_image_id = 0
 count_rbc = 0
 count_rbc_list = []
@@ -64,7 +59,7 @@ for id_index, info in enumerate(annotations):
     
     previous_image_id = image_id
 
-
+# =============================================================================
 
 
 

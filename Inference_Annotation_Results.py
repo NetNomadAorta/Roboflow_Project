@@ -4,15 +4,29 @@ import requests
 from PIL import Image
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import os
+import time
 
 
 # User parameters
+MIN_CONFIDENCE_SCORE = 0.40 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
+
+
+def time_convert(sec):
+    mins = sec // 60
+    sec = sec % 60
+    hours = mins // 60
+    mins = mins % 60
+    print("Time Lapsed = {0}h:{1}m:{2}s".format(int(hours), int(mins), round(sec) ) )
 
 
 
 # Main()
 # =============================================================================
+
+# Starting stopwatch to see how long process takes
+start_time = time.time()
+
 test_folder_path = os.path.join(DATASET_PATH, "test")
 
 count_rbc_list = []
@@ -43,11 +57,19 @@ for image_name in os.listdir(test_folder_path):
     
     for prediction in predictions:
         label = prediction['class']
+        confidence_score = prediction['confidence']
         
-        if "RBC" in label:
+        if "RBC" in label and confidence_score > MIN_CONFIDENCE_SCORE:
             count_rbc += 1
     
     count_rbc_list.append(count_rbc)
-    break
 
 
+
+
+print("Done!")
+
+# Stopping stopwatch to see how long process takes
+end_time = time.time()
+time_lapsed = end_time - start_time
+time_convert(time_lapsed)

@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.30 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.90 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 
@@ -70,8 +70,8 @@ for id_index, info in enumerate(annotations):
 count_rbc_list_1.append(count_rbc_1)
 # -----------------------------------------------------------------------------
 
-highest_confidence_score_accuracy = 0
-previous_highest_confidence_score_accuracy = 0
+most_accurate_confidence_score = 0
+previous_accuracy = 0
 
 # Confidence Change Section
 for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
@@ -128,16 +128,14 @@ for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
             accuracy_list.append(False)
     
     accuracy = accuracy_list.count(True)/len(accuracy_list)
-    print(round(accuracy*100,2), "%")
     # -----------------------------------------------------------------------------
     
-    highest_confidence_score_accuracy = accuracy
     
-    if highest_confidence_score_accuracy > previous_highest_confidence_score_accuracy:
-        previous_highest_confidence_score_accuracy = highest_confidence_score_accuracy
+    if accuracy > previous_accuracy:
+        most_accurate_confidence_score = (MIN_CONFIDENCE_SCORE+(confidence_score_addition/100) )
     
     
-print("Confidence level with highest accuracy between test dataset and inference:", highest_confidence_score_accuracy)
+print("Confidence level with highest accuracy between test dataset and inference:", most_accurate_confidence_score)
 
 # =============================================================================
 

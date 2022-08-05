@@ -140,7 +140,7 @@ for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
     
 
 print("Confidence score with highest accuracy between test dataset and inference:", most_accurate_confidence_score)
-print("Accuracy with confidence score of {}:".format(most_accurate_confidence_score), max_accuracy)
+print("Accuracy with confidence score of {}:".format(most_accurate_confidence_score), round(max_accuracy*100,2), "%")
 # =============================================================================
 
 

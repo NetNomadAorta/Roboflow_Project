@@ -56,7 +56,7 @@ categories
 
 # Only care about id/key/label 2 (RBC)
 
-previous_image_id = 9999
+previous_image_id = 0
 count_rbc = 0
 count_rbc_list = []
 

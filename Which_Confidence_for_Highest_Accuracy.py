@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.30 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.30 # Confidence score ranging from 0 to 1 (THIS IS WHAT TO START WITH)
 DATASET_PATH   = "./Dataset/"
 
 

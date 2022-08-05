@@ -13,7 +13,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 # User parameters
-MIN_CONFIDENCE_SCORE = 0.90 # Confidence score ranging from 0 to 1
+MIN_CONFIDENCE_SCORE = 0.30 # Confidence score ranging from 0 to 1
 DATASET_PATH   = "./Dataset/"
 
 
@@ -133,10 +133,14 @@ for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
     
     if accuracy > previous_accuracy:
         most_accurate_confidence_score = (MIN_CONFIDENCE_SCORE+(confidence_score_addition/100) )
+        max_accuracy = accuracy
     
+    if confidence_score_addition % 5 == 0:
+        print(confidence_score_addition)
     
-print("Confidence level with highest accuracy between test dataset and inference:", most_accurate_confidence_score)
 
+print("Confidence score with highest accuracy between test dataset and inference:", most_accurate_confidence_score)
+print("Accuracy with confidence score of {}:".format(most_accurate_confidence_score), max_accuracy)
 # =============================================================================
 
 

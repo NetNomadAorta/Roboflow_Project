@@ -76,8 +76,6 @@ for image_name in os.listdir(test_folder_path):
     if "annotation" in image_path:
         continue
     
-    count_rbc_2 = 0
-    
     # Load Image with PIL
     img = cv2.imread(image_path)
     image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

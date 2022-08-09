@@ -88,7 +88,10 @@ for image_name in os.listdir(test_folder_path):
     # Build multipart form and post request
     m = MultipartEncoder(fields={'file': ("imageToUpload", buffered.getvalue(), "image/jpeg")})
     
-    response = requests.post("https://detect.roboflow.com/blood-cell-detection-1ekwu/1?api_key=umichXAeCyw6nlBsDZIt", data=m, headers={'Content-Type': m.content_type})
+    response = requests.post("https://detect.roboflow.com/blood-cell-detection-1ekwu/1?api_key=umichXAeCyw6nlBsDZIt&confidence=0", 
+                             data=m, 
+                             headers={'Content-Type': m.content_type},
+                             )
     
     predictions = response.json()['predictions']
     

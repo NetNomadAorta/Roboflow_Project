@@ -39,11 +39,8 @@ dataset_path = DATASET_PATH
 
 #load classes
 coco = COCO(os.path.join(DATASET_PATH, "test", "_annotations.coco.json"))
-categories = coco.cats
 data = coco.dataset
 annotations = data['annotations']
-n_classes = len(categories.keys())
-categories
 
 # Test Dataset Section
 # -----------------------------------------------------------------------------

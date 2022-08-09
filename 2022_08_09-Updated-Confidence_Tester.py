@@ -133,6 +133,9 @@ for confidence_score_addition in range(100-int(MIN_CONFIDENCE_SCORE*100)+1):
             inference_count_rbc += 1
         
         previous_inference_image_name = inference_image_name
+    
+    
+    inference_count_rbc_list.append(inference_count_rbc)
     # -----------------------------------------------------------------------------
     
     

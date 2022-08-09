@@ -85,10 +85,17 @@ for image_name in os.listdir(test_folder_path):
     buffered = io.BytesIO()
     pilImage.save(buffered, quality=100, format="JPEG")
     
+    # Construct the URL
+    upload_url = "".join([
+        "https://detect.roboflow.com/blood-cell-detection-1ekwu/1",
+        "?api_key=umichXAeCyw6nlBsDZIt",
+        "&confidence=0"
+    ])
+    
     # Build multipart form and post request
     m = MultipartEncoder(fields={'file': ("imageToUpload", buffered.getvalue(), "image/jpeg")})
     
-    response = requests.post("https://detect.roboflow.com/blood-cell-detection-1ekwu/1?api_key=umichXAeCyw6nlBsDZIt&confidence=0", 
+    response = requests.post(upload_url, 
                              data=m, 
                              headers={'Content-Type': m.content_type},
                              )
